@@ -70,25 +70,26 @@ const Calendar = () => {
   };
 
   // show content table
-  const ShowTotalDays = () => {
-    let totalSlots = [...emptyDays, ...futuredays];
-    let rows = [];
-    let cells = [];
-    totalSlots.forEach((row, i) => {
-      if (i % 7 !== 0) {
-        cells.push(row);
-        // console.log("OUTPUT: showTotalDays -> cells ======", cells.push(row));
-      } else {
-        rows.push(cells);
-        cells = [];
-        cells.push(row);
-      }
-      if (i === totalSlots.length - 1) {
-        rows.push(cells);
-      }
-    });
-    // console.log("OUTPUT: showTotalDays -> rows, cells", rows, cells);
-  };
+  let totalSlots = [...emptyDays, ...futuredays];
+  let rows = [];
+  let cells = [];
+  totalSlots.forEach((row, i) => {
+    if (i % 7 !== 0) {
+      cells.push(row);
+      // console.log("OUTPUT: showTotalDays -> cells ======", cells.push(row));
+    } else {
+      rows.push(cells);
+      cells = [];
+      cells.push(row);
+    }
+    if (i === totalSlots.length - 1) {
+      rows.push(cells);
+    }
+  });
+  const renderDaysInMonth = rows.map((d, idx) => {
+    return <tr key={idx}>{d}</tr>;
+  });
+
   // End show table
 
   // Navigation
