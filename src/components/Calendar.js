@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-import { range } from "moment-range";
 import "./style.css";
 export default class Calendar extends React.Component {
   weekdayshort = moment.weekdaysShort();
@@ -14,6 +13,7 @@ export default class Calendar extends React.Component {
     selectedDay: null,
   };
   daysInMonth = () => {
+    console.log("alo", this.state.dateObject.daysInMonth());
     return this.state.dateObject.daysInMonth();
   };
   year = () => {
@@ -25,9 +25,14 @@ export default class Calendar extends React.Component {
   firstDayOfMonth = () => {
     let dateObject = this.state.dateObject;
     let firstDay = moment(dateObject).startOf("month").format("d"); // Day of week 0...1..5...6
+    console.log("firstDay", firstDay);
     return firstDay;
   };
   month = () => {
+    console.log(
+      'this.state.dateObject.format("MMMM")',
+      this.state.dateObject.format("MMMM")
+    );
     return this.state.dateObject.format("MMMM");
   };
   showMonth = (e, month) => {
@@ -36,6 +41,7 @@ export default class Calendar extends React.Component {
       showCalendarTable: !this.state.showCalendarTable,
     });
   };
+
   setMonth = (month) => {
     let monthNo = this.state.allmonths.indexOf(month);
     let dateObject = Object.assign({}, this.state.dateObject);
@@ -46,6 +52,7 @@ export default class Calendar extends React.Component {
       showCalendarTable: !this.state.showCalendarTable,
     });
   };
+
   MonthList = (props) => {
     let months = [];
     props.data.map((data) => {
@@ -203,14 +210,16 @@ export default class Calendar extends React.Component {
     let weekdayshortname = this.weekdayshort.map((day) => {
       return <th key={day}>{day}</th>;
     });
+
     let blanks = [];
     for (let i = 0; i < this.firstDayOfMonth(); i++) {
       blanks.push(<td className="calendar-day empty">{""}</td>);
     }
+
     let daysInMonth = [];
     for (let d = 1; d <= this.daysInMonth(); d++) {
       let currentDay = d == this.currentDay() ? "today" : "";
-      // let selectedClass = (d == this.state.selectedDay ? " selected-day " : "")
+      // let selectedClass = d == this.state.selectedDay ? " selected-day " : "";
       daysInMonth.push(
         <td key={d} className={`calendar-day ${currentDay}`}>
           <span
@@ -223,7 +232,9 @@ export default class Calendar extends React.Component {
         </td>
       );
     }
+    // ========
     var totalSlots = [...blanks, ...daysInMonth];
+
     let rows = [];
     let cells = [];
 
@@ -245,6 +256,7 @@ export default class Calendar extends React.Component {
       return <tr>{d}</tr>;
     });
 
+    console.log(this.state.dateObject.daysInMonth());
     return (
       <div className="tail-datetime-calendar">
         <div className="calendar-navi">
